@@ -3,25 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA.news Layout</title>
+    <title>Oreix | Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #000000c8;
+            --ticker-bg: rgba(0, 0, 0, 0.57);
+            --ticker-text: #ffffff;
+            --ticker-height: 44px;
+            --twitter-bg: #f7f9f9;
+            --twitter-hover: #eff3f4;
+            --mobile-header-height: 60px;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #fff;
             margin: 0;
+            padding-bottom: var(--ticker-height);
             overflow-x: hidden;
         }
-        a { text-decoration: none !important; outline: none !important; border: none !important; }
+
+        a { text-decoration: none !important; outline: none !important; border: none !important; color: inherit; }
         .btn:focus, .form-control:focus, input:focus { box-shadow: none !important; border: none !important; outline: none !important; }
         
+        /* --- Header Styles --- */
         .main-header {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(255, 255, 255, 0.95); /* More opacity for mobile */
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -30,33 +43,87 @@
         
         .main-header.scrolled {
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding-top: 12px;
-            padding-bottom: 12px;
+            padding-top: 8px;
+            padding-bottom: 8px;
         }
         
-        .main-header.scrolled .navbar-brand {
-            font-size: 22px;
+        /* Mobile Toggle Button */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Offcanvas Menu Styles (Mobile) */
+        .offcanvas-body .nav-link {
+            font-size: 18px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .offcanvas-body .action-icons-mobile {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        @media (max-width: 991px) {
+            .mobile-menu-toggle { display: block; }
+            .header-utilities, .quick-links, .nav.d-lg-flex { display: none !important; }
+            /* Show profile/search only in offcanvas or simplified header */
+            .navbar-brand { font-size: 20px; margin-right: 0; }
         }
         
-        .main-header.scrolled .nav-link {
-            font-size: 14px;
+        /* Header Utilities Section */
+        .header-utilities {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-right: 20px;
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
         }
-        
-        .main-header.scrolled .search-box {
-            width: 350px;
+        .utility-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        
+        .weather-info i { color: #f39c12; }
+        .action-icon {
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        .action-icon:hover { color: var(--primary-color); background-color: #f3f4f6; }
+
         .quick-links {
             padding-top: 10px;
             border-top: 1px solid #f0f0f0;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         
-        .main-header.scrolled .quick-links {
-            padding-top: 8px;
-            opacity: 0.9;
-        }
+        .main-header.scrolled .quick-links { padding-top: 8px; opacity: 0.9; }
         
+        .quick-links-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .quick-link {
             color: #666;
             font-size: 14px;
@@ -68,16 +135,13 @@
         }
         
         .quick-link:hover {
-            color: #ff5722;
+            color: var(--primary-color);
             background-color: #fff5f2;
             transform: translateY(-2px);
         }
         
-        .quick-links-more {
-            position: relative;
-            display: inline-block;
-        }
-
+        /* Dropdowns & More Button */
+        .quick-links-more { position: relative; display: inline-block; }
         .more-btn {
             color: #666;
             font-size: 14px;
@@ -92,21 +156,9 @@
             border: none;
             background: none;
         }
-
-        .more-btn:hover {
-            color: #ff5722;
-            background-color: #fff5f2;
-            transform: translateY(-2px);
-        }
-
-        .more-btn i {
-            font-size: 16px;
-            transition: transform 0.3s ease;
-        }
-
-        .quick-links-more:hover .more-btn i {
-            transform: rotate(180deg);
-        }
+        .more-btn:hover { color: var(--primary-color); background-color: #fff5f2; transform: translateY(-2px); }
+        .more-btn i { font-size: 16px; transition: transform 0.3s ease; }
+        .quick-links-more:hover .more-btn i { transform: rotate(180deg); }
 
         .more-dropdown {
             position: absolute;
@@ -124,1518 +176,410 @@
             z-index: 1000;
             border: 1px solid rgba(0,0,0,0.06);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
         }
 
         .more-dropdown::before {
             content: '';
             position: absolute;
-            top: -8px;
-            left: 20px;
-            width: 16px;
-            height: 16px;
+            top: -8px; left: 20px;
+            width: 16px; height: 16px;
             background: white;
             border-left: 1px solid rgba(0,0,0,0.06);
             border-top: 1px solid rgba(0,0,0,0.06);
             transform: rotate(45deg);
         }
 
-        .quick-links-more:hover .more-dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-
+        .quick-links-more:hover .more-dropdown { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
         .more-dropdown .quick-link {
-            display: block;
-            padding: 12px 16px;
-            margin: 4px 0;
-            border-radius: 10px;
-            white-space: nowrap;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            animation: fadeInUp 0.4s ease forwards;
+            display: block; padding: 12px 16px; margin: 4px 0; border-radius: 10px;
+            white-space: nowrap; position: relative; overflow: hidden; opacity: 0; animation: fadeInUp 0.4s ease forwards;
         }
+        .more-dropdown .quick-link:nth-child(1) { animation-delay: 0.05s; }
+        .more-dropdown .quick-link:nth-child(2) { animation-delay: 0.1s; }
+        .more-dropdown .quick-link:nth-child(3) { animation-delay: 0.15s; }
 
-        .more-dropdown .quick-link:nth-child(1) {
-            animation-delay: 0.05s;
-        }
-
-        .more-dropdown .quick-link:nth-child(2) {
-            animation-delay: 0.1s;
-        }
-
-        .more-dropdown .quick-link:nth-child(3) {
-            animation-delay: 0.15s;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .more-dropdown .quick-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 3px;
-            background: linear-gradient(to bottom, #ff5722, #ff8a65);
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px;
+            background: linear-gradient(to bottom, var(--primary-color), #ff8a65);
+            transform: scaleY(0); transition: transform 0.3s ease;
+        }
+        .more-dropdown .quick-link:hover::before { transform: scaleY(1); }
+        .more-dropdown .quick-link:hover { background: linear-gradient(to right, #fff5f2, #fff); transform: translateX(6px); padding-left: 20px; }
+
+        /* Social Icons & Profile Wrapper */
+        .bottom-right-utils {
+             display: flex;
+             align-items: center;
+             gap: 15px;
         }
 
-        .more-dropdown .quick-link:hover::before {
-            transform: scaleY(1);
-        }
-
-        .more-dropdown .quick-link:hover {
-            background: linear-gradient(to right, #fff5f2, #fff);
-            transform: translateX(6px);
-            padding-left: 20px;
-        }
-
-        .social-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: 15px;
-            padding-left: 15px;
-            border-left: 1px solid #e5e7eb;
-        }
-
+        .social-icons { display: flex; align-items: center; gap: 8px; padding-left: 0; }
         .social-icon {
-            position: relative;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background-color: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 18px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
+            position: relative; width: 36px; height: 36px; border-radius: 8px; background-color: #f3f4f6;
+            display: flex; align-items: center; justify-content: center; color: #666; font-size: 18px;
+            transition: all 0.3s ease; cursor: pointer; text-decoration: none;
         }
-
-        .social-icon:hover {
-            background-color: #ff5722;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .social-icon::before {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: calc(100% + 10px);
-            left: 50%;
-            transform: translateX(-50%) translateY(-5px);
-            background-color: #333;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        .social-icon::after {
-            content: '';
-            position: absolute;
-            bottom: calc(100% + 4px);
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 5px solid #333;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-
-        .social-icon:hover::before,
-        .social-icon:hover::after {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
+        .social-icon:hover { background-color: var(--primary-color); color: white; transform: translateY(-3px); }
         
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 24px;
-            color: #ff5722;
-            margin-right: 30px;
-        }
+        /* Navbar Elements */
+        .navbar-brand { font-weight: 700; font-size: 24px; color: var(--primary-color); margin-right: 30px; }
         .navbar-brand span { color: #333; }
-        
-        .nav-link {
-            color: #555 !important;
-            font-weight: 500;
-            font-size: 15px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }
+        .nav-link { color: #555 !important; font-weight: 500; font-size: 15px; margin-right: 15px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
         .dropdown-toggle::after { content: none; }
         
-        .search-box {
-            background-color: #f3f4f6;
-            border-radius: 10px;
-            padding: 8px 15px;
-            display: flex;
-            align-items: center;
-            width: 400px;
-            margin-left: auto;
-            margin-right: 20px;
-        }
-        .search-box input {
-            border: none;
-            background: transparent;
-            width: 100%;
-            padding: 0 10px;
-            font-size: 14px;
-            color: #333;
-        }
-        .search-box i { color: #666; font-size: 18px; }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 8px;
-            transition: 0.2s;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
+        /* User Profile */
+        .user-profile { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 5px 10px; border-radius: 8px; transition: 0.2s; border-left: 1px solid #e5e7eb; padding-left: 15px; margin-left: 5px; }
         .user-profile:hover { background-color: #f8f9fa; }
-        .user-profile:active { background-color: #e9ecef; }
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+        .user-name { font-size: 14px; font-weight: 600; color: #333; }
         
         .bookmark-btn {
-            background-color: #f3f4f6;
-            width: 40px;
-            height: 40px;
+            background-color: #f3f4f6; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; color: #333; margin-left: 10px; font-size: 18px; border: none; cursor: pointer; transition: all 0.3s ease;
+        }
+        .bookmark-btn:hover { background-color: var(--primary-color); color: white; transform: translateY(-2px); }
+
+        .dropdown-menu { border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.12); border-radius: 12px; margin-top: 10px; padding: 8px; min-width: 180px; }
+        .dropdown-item { padding: 10px 16px; font-size: 14px; font-weight: 500; border-radius: 8px; color: #333; display: flex; align-items: center; gap: 8px; }
+        .dropdown-item:hover { background-color: #f3f4f6; color: var(--primary-color); transform: translateX(3px); }
+
+        /* --- Hero Section --- */
+        .hero-section { padding: 30px 0; background-color: #fff; }
+        .hero-grid-item { position: relative; border-radius: 8px; overflow: hidden; display: block; width: 100%; text-decoration: none; transition: transform 0.3s ease; }
+        /* Removed hover scale on mobile to prevent overflow issues */
+        @media(min-width: 992px) {
+            .hero-grid-item:hover .hero-bg-img { transform: scale(1.05); }
+        }
+        
+        .hero-large { height: 400px; }
+        .hero-small { height: 240px; }
+        
+        @media (max-width: 991px) { 
+            .hero-large { height: 300px; } 
+            .hero-small { height: 200px; }
+            .hero-title { font-size: 18px !important; }
+        }
+
+        .hero-bg-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .hero-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0; top: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%);
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; z-index: 2;
+        }
+        
+        .category-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #fff; margin-bottom: 10px; width: fit-content; }
+        .bg-blue { background-color: #2196f3; }
+        .bg-purple { background-color: #673ab7; }
+        .bg-teal { background-color: #009688; }
+        .bg-red { background-color: #e91e63; }
+        
+        .hero-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; line-height: 1.4; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .hero-meta { font-size: 12px; color: #ccc; display: flex; align-items: center; gap: 15px; }
+        .g-custom { --bs-gutter-x: 20px; --bs-gutter-y: 20px; }
+
+
+        /* --- CONTENT SECTION STYLES --- */
+        .content-section { padding: 20px 0 60px; background-color: #fff; }
+
+        .trends-sidebar {
+            background-color: var(--twitter-bg);
+            border-radius: 16px;
+            padding: 15px 0;
+            position: sticky;
+            top: 100px;
+        }
+        
+        /* Mobile Trends adjustments */
+        @media (max-width: 991px) {
+            .trends-sidebar { position: static; margin-bottom: 40px; }
+            .content-section .row { flex-direction: column-reverse; } /* News first, trends second on mobile */
+        }
+
+        .trends-header {
+            padding: 0 20px 10px;
+            font-size: 20px;
+            font-weight: 800;
+            border-bottom: 1px solid #e1e8ed;
+            margin-bottom: 5px;
+        }
+
+        .trend-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .trend-item:hover { background-color: var(--twitter-hover); }
+
+        .trend-meta { font-size: 13px; color: #536471; margin-bottom: 2px; }
+        .trend-title { font-size: 15px; font-weight: 700; color: #0f1419; margin-bottom: 2px; line-height: 1.3; }
+        .trend-count { font-size: 13px; color: #536471; }
+        .trend-more-icon { color: #536471; padding: 5px; border-radius: 50%; }
+        .trend-more-icon:hover { background-color: rgba(29, 155, 240, 0.1); color: #1d9bf0; }
+        .show-more-link { display: block; padding: 15px 20px; color: #1d9bf0; font-size: 15px; text-decoration: none; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; }
+        .show-more-link:hover { background-color: var(--twitter-hover); }
+
+        .news-card {
+            border: 1px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-color: transparent;
+        }
+
+        .news-card-img-wrapper { position: relative; height: 200px; overflow: hidden; }
+        .news-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .news-card:hover .news-card-img { transform: scale(1.05); }
+        
+        .news-card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .news-category { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--primary-color); margin-bottom: 8px; letter-spacing: 0.5px; }
+        .news-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; line-height: 1.4; color: #1a1a1a; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .news-desc { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .news-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f9f9f9; padding-top: 15px; margin-top: auto; }
+        .news-author { display: flex; align-items: center; gap: 8px; }
+        .author-img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+        .author-name { font-size: 12px; font-weight: 600; color: #444; }
+        
+        .save-btn {
+            background: #f8f9fa; border: none; cursor: pointer; color: #666; font-size: 16px;
+            transition: 0.2s; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        }
+        .save-btn:hover { color: #fff; background-color: var(--primary-color); }
+
+        .read-more-container { text-align: center; margin-top: 40px; }
+        .custom-read-more-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 35px;
+            background: transparent;
+            color: #333;
+            border: 2px solid #333;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .custom-read-more-btn:hover {
+            background: #333;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- News Ticker Styles --- */
+        .modern-ticker-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--ticker-height);
+            background-color: var(--ticker-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--ticker-text);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1050; /* Higher than header z-index */
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .modern-ticker-container.closed { transform: translateY(100%); }
+        
+        .ticker-wrapper { display: flex; align-items: center; flex-grow: 1; overflow: hidden; height: 100%; }
+        
+        .ticker-label {
+            display: flex; align-items: center; padding: 0 16px; height: 100%;
+            font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-transform: uppercase;
+            background-color: var(--primary-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .label-icon::before { content: "🔥"; margin-right: 6px; }
+        
+        .ticker-headlines-container { flex-grow: 1; position: relative; height: 100%; margin-left: 16px; overflow: hidden; }
+        
+        .ticker-headline {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; font-size: 0.9rem; font-weight: 500;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            opacity: 0; transform: translateY(20px); transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .ticker-headline.current-headline { opacity: 1; transform: translateY(0); }
+        .ticker-headline.exit-headline { opacity: 0; transform: translateY(-20px); }
+        
+        .ticker-close-btn {
+            background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer;
+            padding: 0 16px; height: 100%; display: flex; align-items: center; transition: color 0.2s;
+        }
+        .ticker-close-btn:hover { color: white; background-color: rgba(255,255,255,0.1); }
+
+        /* --- Full Screen Search Overlay Styles (NEW) --- */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50vh;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
-            color: #333;
-            margin-left: 10px;
-            font-size: 18px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .bookmark-btn:hover {
-            background-color: #ff5722;
-            color: white;
-            transform: translateY(-2px);
-        }
-        
-        .bookmark-btn:active {
-            transform: translateY(0);
-        }
-
-
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-menu {
-            border: none;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-            border-radius: 12px;
-            margin-top: 10px;
-            padding: 8px;
-            min-width: 180px;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            display: block;
+            transform: translateY(-20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
-        .dropdown:hover .dropdown-menu,
-        .dropdown.show .dropdown-menu {
+        .search-overlay.active {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
 
-
-        .dropdown-item {
-            padding: 10px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 8px;
+        .search-overlay-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 32px;
             color: #333;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .dropdown-item:hover {
-            background-color: #f3f4f6;
-            color: #ff5722;
-            transform: translateX(3px);
-        }
-
-        .dropdown-item i {
-            font-size: 16px;
-        }
-
-        .dropdown-divider {
-            margin: 8px 0;
-            opacity: 0.2;
-        }
-
-        .featured-section {
-            padding: 30px 0;
-        }
-        
-        .hero-card {
-            height: 380px;
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-            display: block;
-            border: 3px solid transparent;
+            cursor: pointer;
             transition: transform 0.3s ease;
         }
+        .search-overlay-close:hover { transform: rotate(90deg) scale(1.1); color: var(--primary-color); }
 
-        .hero-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .hero-card-img {
+        .search-overlay-content {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            max-width: 800px;
+            padding: 0 20px;
+            text-align: center;
         }
 
-        .hero-card:hover .hero-card-img {
-            transform: scale(1.05);
-        }
-
-        .hero-content {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            right: 12px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 20px;
-            z-index: 2;
-        }
-
-        .hero-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #111;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .hero-desc {
-            font-size: 13px;
-            color: #666;
-            margin: 0;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.6;
-        }
-
-        .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .arrow-left { left: 15px; }
-        .arrow-right { right: 15px; }
-
-        .popular-posts-section {
-            padding: 50px 0;
-            background-color: #fff;
-        }
-
-        .popular-posts-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-
-        .popular-posts-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .popular-posts-title .title-bullet {
-            width: 12px;
-            height: 12px;
-            background-color: #ff5722;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .popular-posts-nav {
-            display: flex;
-            gap: 10px;
-        }
-
-        .popular-nav-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #f3f4f6;
+        .overlay-search-input {
+            width: 100%;
+            background: transparent;
             border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            border-bottom: 2px solid #ccc;
+            font-size: 2rem; /* Smaller for mobile */
+            font-weight: 700;
+            color: #333;
+            padding: 10px 0;
+            outline: none;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+        @media(min-width:768px){ .overlay-search-input { font-size: 3rem; } }
+
+        .overlay-search-input:focus { border-color: var(--primary-color); }
+        .overlay-search-input::placeholder { color: #aaa; font-weight: 300; }
+        
+        .overlay-search-desc {
+            margin-top: 20px;
             color: #666;
-            font-size: 18px;
-            transition: all 0.3s;
-            opacity: 1 !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .popular-nav-btn:hover {
-            background-color: #ff5722;
-            color: white;
-            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
-            transform: scale(1.1);
-        }
-
-        .popular-posts-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .popular-posts-wrapper {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding-bottom: 10px;
-        }
-
-        .popular-posts-wrapper::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Gradient overlays for fade effect */
-        .popular-posts-container::before,
-        .popular-posts-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100px;
-            z-index: 5;
-            pointer-events: none;
+            font-size: 14px;
             opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .popular-posts-container::before {
-            left: 0;
-            background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-        }
-
-        .popular-posts-container::after {
-            right: 0;
-            background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-        }
-
-        .popular-posts-container.show-left-fade::before {
-            opacity: 1;
-        }
-
-        .popular-posts-container.show-right-fade::after {
-            opacity: 1;
-        }
-
-        .popular-post-card {
-            min-width: 300px;
-            max-width: 300px;
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .popular-post-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        }
-
-        .popular-post-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .popular-post-content {
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .popular-post-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #111;
-            margin-bottom: 12px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .popular-post-desc {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 16px;
-            flex: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .popular-post-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 12px;
-            border-top: 1px solid #f3f4f6;
-        }
-
-        .popular-post-author {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .popular-post-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .popular-post-author-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .popular-post-author-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin: 0;
-        }
-
-        .popular-post-date {
-            font-size: 12px;
-            color: #999;
-            margin: 0;
-        }
-
-        .popular-post-bookmark {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background-color: #f3f4f6;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #666;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-
-        .popular-post-bookmark:hover {
-            background-color: #e5e7eb;
-            color: #ff5722;
-        }
-
-        /* New Posts Section */
-        .new-posts-section {
-            padding: 80px 0;
-            background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
-            position: relative;
-        }
-
-        .new-posts-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(to right, transparent, #e5e7eb, transparent);
-        }
-
-        .new-posts-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 50px;
-        }
-
-        .new-posts-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .new-posts-title .title-bullet {
-            width: 12px;
-            height: 12px;
-            background-color: #ff5722;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .show-all-btn {
-            color: #333;
-            font-weight: 600;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s;
-        }
-
-        .show-all-btn:hover {
-            color: #ff5722;
-            gap: 8px;
-        }
-
-        .new-posts-section {
-            padding: 60px 0;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .new-posts-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding: 0 15px;
-        }
-
-        .new-posts-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
-        }
-
-        /* النقطة الحمراء بجانب العنوان */
-        .new-posts-title::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 20px;
-            background-color: #ff3366; /* لون مطابق للصورة */
-            border-radius: 2px;
-            margin-right: 5px;
-        }
-
-        .show-all-btn {
-            background-color: #f0f0f0;
-            color: #666;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .show-all-btn:hover {
-            background-color: #e0e0e0;
-            color: #333;
-        }
-
-        /* شبكة العرض (Grid) */
-        .new-posts-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* عمودين كما في الصورة */
-            gap: 30px;
-            padding: 0 15px;
-        }
-
-        /* تصميم الكارت الأفقي */
-        .new-post-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex; /* جعل الكارت أفقي */
-            flex-direction: row; 
-            height: 220px; /* ارتفاع ثابت للكارت */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #f0f0f0;
-        }
-
-        .new-post-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-        }
-
-        /* تنسيق الصورة داخل الكارت */
-        .new-post-image {
-            width: 40%;
-            height: 100%;
-            transition: transform 0.5s ease;
-            border: 5px solid white;
-            border-radius: 12px;
-        }
-
-
-
-        /* محتوى الكارت (النص) */
-        .new-post-content {
-            width: 60%; /* المحتوى يأخذ 60% */
-            padding: 20px 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .new-post-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .new-post-desc {
-            font-size: 13px;
-            color: #777;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* إظهار سطرين فقط */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* الجزء السفلي من الكارت (المؤلف والتاريخ) */
-        .new-post-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: auto;
-        }
-
-        .new-post-author {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .new-post-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px; 
-            object-fit: cover;
-        }
-
-        .new-post-author-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .new-post-author-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: #333;
-            margin: 0;
-        }
-
-        .new-post-date {
-            font-size: 11px;
-            color: #999;
-            margin: 0;
-        }
-
-        .new-post-bookmark {
-            color: #ccc;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 0;
-            transition: color 0.2s;
-        }
-
-        .new-post-bookmark:hover {
-            color: #ff3366;
-        }
-
-        /* التجاوب مع الشاشات الصغيرة (الموبايل) */
-        @media (max-width: 991px) {
-            .new-posts-grid {
-                grid-template-columns: 1fr; /* عمود واحد في التابلت والموبايل */
-            }
-            
-            .new-post-card {
-                height: auto; /* ارتفاع تلقائي */
-                min-height: 180px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .new-post-card {
-                flex-direction: column; /* الصورة فوق النص في الموبايل الصغير جداً */
-            }
-            .new-post-image {
-                width: 100%;
-                height: 200px;
-            }
-            .new-post-content {
-                width: 100%;
-            }
-        }
-
-        /* Latest Videos Section */
-        .latest-videos-section {
-            padding: 60px 0;
-            background-color: #fff;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .latest-videos-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding: 0 15px;
-        }
-
-        .latest-videos-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
-        }
-
-        .latest-videos-title::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 20px;
-            background-color: #ff3366;
-            border-radius: 2px;
-        }
-
-        .videos-nav-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .video-nav-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            background-color: #f3f4f6;
-            color: #666;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .video-nav-btn:hover {
-            background: linear-gradient(135deg, #ff5722, #ff8a65);
-            color: white;
-            transform: scale(1.1);
-            box-shadow: 0 4px 16px rgba(255, 87, 34, 0.3);
-        }
-
-        .videos-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 25px;
-            padding: 0 15px;
-        }
-
-        /* Main Video Card */
-        .main-video-wrapper {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            background: #fff;
-            aspect-ratio: 16/9;
-        }
-
-        .main-video-thumbnail {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .main-video-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .main-video-wrapper:hover .main-video-thumbnail img {
-            transform: scale(1.05);
-        }
-
-        .main-video-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-            padding: 30px;
-            color: white;
-        }
-
-        .main-video-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            line-height: 1.4;
-            color: white;
-        }
-
-        .main-video-meta {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 14px;
-            color: rgba(255,255,255,0.9);
-        }
-
-        .main-video-author {
-            font-weight: 600;
-        }
-
-        .main-video-time {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .main-video-comments {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .video-dots {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            z-index: 10;
-        }
-
-        .video-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .video-dot.active {
-            background-color: white;
-            width: 24px;
-            border-radius: 5px;
-        }
-
-        /* Side Videos List */
-        .side-videos-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .side-video-item {
-            display: flex;
-            gap: 15px;
-            padding: 15px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .side-video-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-            border-color: #ff5722;
-        }
-
-        .side-video-item.active {
-            border-color: #ff5722;
-            background: #fff5f2;
-        }
-
-        .side-video-thumb {
-            width: 140px;
-            min-width: 140px;
-            height: 100px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .side-video-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .side-video-item:hover .side-video-thumb img {
-            transform: scale(1.1);
-        }
-
-        .side-video-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .side-video-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .side-video-item.active .side-video-title {
-            color: #ff5722;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .videos-container {
-                grid-template-columns: 1fr;
-            }
-            .main-video-thumbnail {
-                height: 350px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-video-thumbnail {
-                height: 280px;
-            }
-            .side-video-item {
-                flex-direction: column;
-            }
-            .side-video-thumb {
-                width: 100%;
-                height: 180px;
-            }
-        }
-
-        /* Real Estate Section */
-        .real-estate-section {
-            padding: 80px 0;
-            background-color: #1a1a1a;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .real-estate-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            padding: 0 30px;
-        }
-
-        .real-estate-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 0;
-        }
-
-        .real-estate-title::before {
-            content: '';
-            display: inline-block;
-            width: 5px;
-            height: 24px;
-            background-color: #ff3366;
-            border-radius: 3px;
-        }
-
-        .real-estate-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            padding: 0 30px;
-        }
-
-        /* Main Real Estate Card */
-        .main-real-estate-card {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            height: 520px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        }
-
-        .main-real-estate-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-
-        .main-real-estate-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .main-real-estate-card:hover .main-real-estate-image {
-            transform: scale(1.08);
-        }
-
-        .main-real-estate-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
-            padding: 35px;
-            color: white;
-        }
-
-        .main-real-estate-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #fff;
-            margin-bottom: 18px;
-            background-color: #2196f3;
-            letter-spacing: 0.5px;
-        }
-
-        .main-real-estate-title {
-            font-size: 30px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 18px;
-            line-height: 1.3;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-        }
-
-        .main-real-estate-meta {
-            font-size: 14px;
-            color: #ddd;
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .main-real-estate-meta span {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Real Estate Grid */
-        .real-estate-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-
-        .real-estate-card {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            height: 245px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-        }
-
-        .real-estate-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-        }
-
-        .real-estate-card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .real-estate-card:hover .real-estate-card-image {
-            transform: scale(1.12);
-        }
-
-        .real-estate-card-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
-            padding: 22px;
-            color: white;
-        }
-
-        .real-estate-card-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #fff;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .real-estate-card-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 12px;
-            line-height: 1.4;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .real-estate-card-meta {
-            font-size: 12px;
-            color: #ddd;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-
-        .real-estate-card-meta span {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Badge Colors */
-        .badge-blue { background-color: #2196f3; }
-        .badge-pink { background-color: #e91e63; }
-        .badge-red { background-color: #f44336; }
-        .badge-teal { background-color: #009688; }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .real-estate-section {
-                padding: 60px 0;
-            }
-            .real-estate-header {
-                padding: 0 20px;
-                margin-bottom: 30px;
-            }
-            .real-estate-container {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                padding: 0 20px;
-            }
-            .main-real-estate-card {
-                height: 420px;
-            }
-            .real-estate-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .real-estate-section {
-                padding: 50px 0;
-            }
-            .real-estate-header {
-                padding: 0 15px;
-            }
-            .real-estate-container {
-                padding: 0 15px;
-            }
-            .real-estate-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .main-real-estate-card {
-                height: 380px;
-            }
-            .real-estate-card {
-                height: 230px;
-            }
-        }
-
-    .hero-section {
-        padding: 30px 0;
-        background-color:rgb(255, 255, 255);
-    }
-
-    .hero-grid-item {
-        position: relative;
-        border-radius: 8px;
-        overflow: hidden;
-        display: block;
-        width: 100%;
-        text-decoration: none;
-        transition: transform 0.3s ease;
-    }
-
-    .hero-grid-item:hover .hero-bg-img {
-        transform: scale(1.05);
-    }
-
-    /* التحكم في الارتفاعات */
-    .hero-large {
-        height: 400px; /* ارتفاع الكروت الكبيرة العلوية */
-    }
-
-    .hero-small {
-        height: 240px; /* ارتفاع الكروت الصغيرة السفلية */
-    }
-
-    /* الصورة الخلفية */
-    .hero-bg-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    /* التدرج اللوني والنصوص فوق الصورة */
-    .hero-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        top: 0;
-        /* تدرج أسود من الأسفل للأعلى لظهور النص */
-        background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 20px;
-        z-index: 2;
-    }
-
-    .category-badge {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: #fff;
-        margin-bottom: 10px;
-        width: fit-content;
-    }
-
-    .bg-blue { background-color: #2196f3; }
-    .bg-purple { background-color: #673ab7; }
-    .bg-teal { background-color: #009688; }
-    .bg-red { background-color: #e91e63; }
-
-    .hero-title {
-        font-size: 20px;
-        font-weight: 700;
-        color: #fff;
-        margin-bottom: 10px;
-        line-height: 1.4;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-
-    .hero-small .hero-title {
-        font-size: 16px;
-    }
-
-    .hero-meta {
-        font-size: 12px;
-        color: #ccc;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .hero-meta span {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .g-custom { --bs-gutter-x: 20px; --bs-gutter-y: 20px; }
+            transform: translateY(10px);
+            transition: all 0.4s ease 0.1s;
+        }
+        
+        .search-overlay.active .overlay-search-desc { opacity: 1; transform: translateY(0); }
+
+        /* Animation for Offcanvas Items */
+        .offcanvas.show .nav-link { animation: slideIn 0.4s forwards; opacity: 0; transform: translateX(-20px); }
+        .offcanvas.show .nav-link:nth-child(1) { animation-delay: 0.1s; }
+        .offcanvas.show .nav-link:nth-child(2) { animation-delay: 0.2s; }
+        .offcanvas.show .nav-link:nth-child(3) { animation-delay: 0.3s; }
+        .offcanvas.show .nav-link:nth-child(4) { animation-delay: 0.4s; }
+        .offcanvas.show .nav-link:nth-child(5) { animation-delay: 0.5s; }
+        
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
 
-    @media (max-width: 991px) {
-        .hero-large { height: 300px; }
-    }
     </style>
 </head>
 <body>
 
+    <!-- SEARCH OVERLAY -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-overlay-close" id="closeSearchOverlay"><i class="ri-close-line"></i></div>
+        <div class="search-overlay-content">
+            <input type="text" class="overlay-search-input" placeholder="Type to search..." autofocus>
+            <p class="overlay-search-desc">Press Enter to see results</p>
+        </div>
+    </div>
+
+    <!-- MAIN HEADER -->
     <header class="main-header py-3 border-bottom">
-        <div class="container-fluid px-4">
+        <div class="container-fluid px-3 px-lg-4">
+            <!-- Top Section: Brand, Mobile Toggle, Utilities -->
             <div class="d-flex align-items-center justify-content-between">
                 
-                <div class="d-flex align-items-center flex-grow-1">
-                    <a class="navbar-brand" href="#">MEGA<span>.news</span></a>
-                    
-                    <ul class="nav d-none d-lg-flex">
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button">
-                                Categories <i class="ri-arrow-down-s-line"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="ri-computer-line"></i> Technology</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="ri-football-line"></i> Sports</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="ri-shirt-line"></i> Fashion</a></li>
-                            </ul>
-                        </li> -->
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button">
-                                Pages <i class="ri-arrow-down-s-line"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="ri-shield-check-line"></i> Privacy Policy</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="ri-file-text-line"></i> Terms</a></li>
-                            </ul>
-                        </li> -->
+                <!-- Brand & Mobile Toggle Wrapper -->
+                <div class="d-flex align-items-center">
+                    <i class="ri-menu-2-line mobile-menu-toggle me-3" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"></i>
+                    <a class="navbar-brand" href="#">oreix.news</a>
+                </div>
+
+                <!-- Desktop Nav -->
+                <div class="d-none d-lg-flex align-items-center flex-grow-1">
+                    <ul class="nav">
                         <li class="nav-item"><a class="nav-link" href="#"><i class="ri-phone-line"></i> Contact Us</a></li>
                         <li class="nav-item"><a class="nav-link" href="#"><i class="ri-information-line"></i> About Us</a></li>
                     </ul>
-
-                    <div class="search-box d-none d-md-flex">
-                        <i class="ri-more-2-fill me-2"></i>
-                        <input type="text" placeholder="Search Anything">
-                        <i class="ri-search-line"></i>
-                    </div>
                 </div>
-
+                
+                <!-- Right Side Actions -->
                 <div class="d-flex align-items-center">
-                    <div class="dropdown">
+                    <!-- Desktop Utilities -->
+                    <div class="header-utilities d-none d-xl-flex">
+                        <div class="utility-item weather-info me-3" title="Cairo, Egypt">
+                            <i class="ri-sun-cloudy-line"></i> <span>24°C</span>
+                        </div>
+                        <div class="utility-item date-time-info me-3">
+                            <i class="ri-calendar-line"></i> <span id="currentDate"></span>
+                            <span class="mx-1">|</span>
+                            <i class="ri-time-line"></i> <span id="currentTime"></span>
+                        </div>
+                        <div class="utility-item actions">
+                             <i class="ri-search-line action-icon me-2" id="searchTrigger" title="Search"></i>
+                             <i class="ri-moon-line action-icon me-2" title="Toggle Theme"></i>
+                             <i class="ri-translate-2 action-icon" title="Translate"></i>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Search Trigger (Visible only on mobile/tablet) -->
+                    <div class="d-flex d-xl-none me-2">
+                         <i class="ri-search-line action-icon" id="searchTriggerMobile" style="font-size: 22px;"></i>
+                    </div>
+
+                    <button class="bookmark-btn" title="Saved Articles"><i class="ri-bookmark-line"></i></button>
+                    
+                    <!-- User Profile (Desktop) -->
+                    <div class="dropdown d-none d-md-block">
                         <div class="user-profile dropdown-toggle" role="button">
                             <img src="https://i.pravatar.cc/150?img=11" alt="User" class="user-avatar">
-                            <span class="fw-medium d-none d-sm-block text-dark">Youssef Enad</span>
+                            <span class="fw-medium d-none d-sm-block text-dark user-name">Youssef Enad</span>
                             <i class="ri-arrow-down-s-line text-dark"></i>
                         </div>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -1645,986 +589,404 @@
                             <li><a class="dropdown-item text-danger" href="#"><i class="ri-logout-box-line"></i> Logout</a></li>
                         </ul>
                     </div>
-                    <button class="bookmark-btn" title="Saved Articles">
-                        <i class="ri-bookmark-line"></i>
-                    </button>
                 </div>
             </div>
             
-            <div class="quick-links mt-3 d-none d-md-flex align-items-center gap-3">
-                <a href="#" class="quick-link">Home</a>
-                <a href="#" class="quick-link">General News</a>
-                <a href="#" class="quick-link">Real Estate</a>
-                <a href="#" class="quick-link">Economy</a>
-                <a href="#" class="quick-link">Banks & Stock Exchange</a>
-                <a href="#" class="quick-link">Telecom & Technology</a>
-                <a href="#" class="quick-link">Tourism & Aviation</a>
-                
-                <div class="quick-links-more">
-                    <button class="more-btn">
-                        More <i class="ri-arrow-down-s-line"></i>
-                    </button>
-                    <div class="more-dropdown">
-                        <a href="#" class="quick-link">Reports</a>
-                        <a href="#" class="quick-link">Companies & Investments</a>
-                        <a href="#" class="quick-link">Mining & Energy</a>
-                        <a href="#" class="quick-link">Agriculture & Industry</a>
-                        <a href="#" class="quick-link">Articles</a>
-                        <a href="#" class="quick-link">Cars</a>
-                     </div>
+            <!-- Bottom Section: Quick Links (Desktop Only) -->
+            <div class="quick-links mt-3 d-none d-lg-flex align-items-center">
+                <div class="quick-links-left">
+                    <a href="#" class="quick-link">Home</a>
+                    <a href="#" class="quick-link">General News</a>
+                    <a href="#" class="quick-link">Real Estate</a>
+                    <a href="#" class="quick-link">Economy</a>
+                    <a href="#" class="quick-link">Banks & Stock</a>
+                    <a href="#" class="quick-link">Technology</a>
+                    <div class="quick-links-more">
+                        <button class="more-btn">More <i class="ri-arrow-down-s-line"></i></button>
+                        <div class="more-dropdown">
+                            <a href="#" class="quick-link">Reports</a>
+                            <a href="#" class="quick-link">Companies</a>
+                            <a href="#" class="quick-link">Energy</a>
+                         </div>
+                    </div>
                 </div>
 
-                <div class="social-icons">
-                    <a href="#" class="social-icon" data-tooltip="Facebook">
-                        <i class="ri-facebook-fill"></i>
-                    </a>
-                    <a href="#" class="social-icon" data-tooltip="Twitter">
-                        <i class="ri-twitter-x-fill"></i>
-                    </a>
-                    <a href="#" class="social-icon" data-tooltip="Instagram">
-                        <i class="ri-instagram-fill"></i>
-                    </a>
-                    <a href="#" class="social-icon" data-tooltip="LinkedIn">
-                        <i class="ri-linkedin-fill"></i>
-                    </a>
+                <!-- Social Icons Desktop -->
+                <div class="bottom-right-utils">
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="ri-facebook-fill"></i></a>
+                        <a href="#" class="social-icon"><i class="ri-twitter-x-fill"></i></a>
+                        <a href="#" class="social-icon"><i class="ri-threads-fill"></i></a>
+                        <a href="#" class="social-icon"><i class="ri-instagram-line"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- MOBILE OFFCANVAS MENU -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title fw-bold" id="mobileMenuLabel" style="color: var(--primary-color);">oreix.news</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <!-- Mobile User Profile -->
+            <div class="d-flex align-items-center mb-4 p-2 rounded bg-light">
+                 <img src="https://i.pravatar.cc/150?img=11" alt="User" class="rounded-circle me-3" width="50" height="50">
+                 <div>
+                     <div class="fw-bold">Youssef Enad</div>
+                     <small class="text-muted">View Profile</small>
+                 </div>
+            </div>
+
+            <nav class="nav flex-column mb-auto">
+                <a class="nav-link text-dark" href="#"><i class="ri-home-4-line me-2"></i> Home</a>
+                <a class="nav-link text-dark" href="#"><i class="ri-newspaper-line me-2"></i> General News</a>
+                <a class="nav-link text-dark" href="#"><i class="ri-building-line me-2"></i> Real Estate</a>
+                <a class="nav-link text-dark" href="#"><i class="ri-line-chart-line me-2"></i> Economy</a>
+                <a class="nav-link text-dark" href="#"><i class="ri-cpu-line me-2"></i> Technology</a>
+                <a class="nav-link text-dark" href="#"><i class="ri-more-fill me-2"></i> More Sections</a>
+            </nav>
+
+            <div class="mt-4 border-top pt-4">
+                 <div class="d-flex justify-content-between align-items-center mb-3 text-muted">
+                    <span><i class="ri-sun-cloudy-line"></i> Cairo, 24°C</span>
+                 </div>
+                 
+                 <div class="action-icons-mobile justify-content-center">
+                    <a href="#" class="social-icon"><i class="ri-facebook-fill"></i></a>
+                    <a href="#" class="social-icon"><i class="ri-twitter-x-fill"></i></a>
+                    <a href="#" class="social-icon"><i class="ri-instagram-line"></i></a>
+                 </div>
+
+                 <button class="btn btn-outline-danger w-100 mt-4 rounded-pill"><i class="ri-logout-box-line me-2"></i> Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
     <section class="hero-section">
-        <div class="container-fluid px-4">
+        <div class="container-fluid px-3 px-lg-4">
             <div class="row g-custom">
-                
+                <!-- Large Items -->
                 <div class="col-lg-6 mb-3 mb-lg-0">
                     <a href="#" class="hero-grid-item hero-large">
-                        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800" alt="News Image" class="hero-bg-img">
+                        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800" alt="News" class="hero-bg-img">
                         <div class="hero-overlay">
                             <span class="category-badge bg-blue">Travel</span>
                             <h3 class="hero-title">Skiing Together: A Journey of Memories and Friendship</h3>
-                            <div class="hero-meta">
-                                <span><i class="ri-user-line"></i> BY - Tnews</span>
-                                <span><i class="ri-calendar-line"></i> September 12, 2024</span>
-                            </div>
+                            <div class="hero-meta"><span><i class="ri-user-line"></i> Tnews</span><span><i class="ri-calendar-line"></i> Sep 12</span></div>
                         </div>
                     </a>
                 </div>
-
                 <div class="col-lg-6 mb-3 mb-lg-0">
                     <a href="#" class="hero-grid-item hero-large">
-                        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800" alt="News Image" class="hero-bg-img">
+                        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800" alt="News" class="hero-bg-img">
                         <div class="hero-overlay">
                             <span class="category-badge bg-purple">Fashion</span>
                             <h3 class="hero-title">These are all of my Alberta travel blogs at An Adventurous World</h3>
-                            <div class="hero-meta">
-                                <span><i class="ri-user-line"></i> BY - Tnews</span>
-                                <span><i class="ri-calendar-line"></i> August 28, 2023</span>
-                            </div>
+                            <div class="hero-meta"><span><i class="ri-user-line"></i> Tnews</span><span><i class="ri-calendar-line"></i> Aug 28</span></div>
                         </div>
                     </a>
                 </div>
-
-                <div class="col-lg-3 col-md-6">
+                <!-- Small Items -->
+                <div class="col-6 col-lg-3 col-md-6">
                     <a href="#" class="hero-grid-item hero-small">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="News Image" class="hero-bg-img">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="News" class="hero-bg-img">
                         <div class="hero-overlay">
                             <span class="category-badge bg-teal">Travel</span>
-                            <h3 class="hero-title">Escape the ordinary embrace the extraordinary in</h3>
-                            <div class="hero-meta">
-                                <span><i class="ri-user-line"></i> Tnews</span>
-                                <span><i class="ri-calendar-line"></i> Aug 31</span>
-                            </div>
+                            <h3 class="hero-title">Escape the ordinary embrace</h3>
                         </div>
                     </a>
                 </div>
-
-                <div class="col-lg-3 col-md-6">
+                <div class="col-6 col-lg-3 col-md-6">
                     <a href="#" class="hero-grid-item hero-small">
-                        <img src="https://images.unsplash.com/photo-1621574539436-4bf8a25c3886?w=600" alt="News Image" class="hero-bg-img">
+                        <img src="https://images.unsplash.com/photo-1621574539436-4bf8a25c3886?w=600" alt="News" class="hero-bg-img">
                         <div class="hero-overlay">
                             <span class="category-badge bg-blue">Travel</span>
-                            <h3 class="hero-title">Happy young loving couple outside with backpack</h3>
-                            <div class="hero-meta">
-                                <span><i class="ri-user-line"></i> Tnews</span>
-                                <span><i class="ri-calendar-line"></i> Aug 28</span>
-                            </div>
+                            <h3 class="hero-title">Happy young loving couple</h3>
                         </div>
                     </a>
                 </div>
-
-                <div class="col-lg-3 col-md-6">
+                <div class="col-6 col-lg-3 col-md-6">
                     <a href="#" class="hero-grid-item hero-small">
-                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600" alt="News Image" class="hero-bg-img">
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600" alt="News" class="hero-bg-img">
                         <div class="hero-overlay">
                             <span class="category-badge bg-blue">Travel</span>
-                            <h3 class="hero-title">Skiing Together: A Journey of Memories and</h3>
-                            <div class="hero-meta">
-                                <span><i class="ri-user-line"></i> Tnews</span>
-                                <span><i class="ri-calendar-line"></i> Sep 12</span>
-                            </div>
+                            <h3 class="hero-title">Skiing Together: A Journey</h3>
                         </div>
                     </a>
                 </div>
-
-                <div class="col-lg-3 col-md-6">
+                <div class="col-6 col-lg-3 col-md-6">
                     <a href="#" class="hero-grid-item hero-small">
-                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600" alt="News Image" class="hero-bg-img">
+                        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600" alt="News" class="hero-bg-img">
                         <div class="hero-overlay">
-                            <span class="category-badge bg-red">Entertain</span>
-                            <h3 class="hero-title">Travel Where memories are made, and dreams</h3>
-                            <div class="hero-meta">
-                                <span><i class="ri-user-line"></i> Tnews</span>
-                                <span><i class="ri-calendar-line"></i> Sep 12</span>
-                            </div>
+                            <span class="category-badge bg-red">Fun</span>
+                            <h3 class="hero-title">Travel Where memories are made</h3>
                         </div>
                     </a>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <section class="popular-posts-section container-fluid px-4">
-        <div class="popular-posts-header">
-                <h2 class="popular-posts-title">
-                <span class="title-bullet"></span>
-                latest News
-                </h2>
-            <div class="popular-posts-nav">
-                <button class="popular-nav-btn" id="popularPrevBtn">
-                    <i class="ri-arrow-left-s-line"></i>
-                </button>
-                <button class="popular-nav-btn" id="popularNextBtn">
-                    <i class="ri-arrow-right-s-line"></i>
-                </button>
-            </div>
-        </div>
-
-        <div class="popular-posts-container">
-            <div class="popular-posts-wrapper" id="popularPostsWrapper">
-                <div class="popular-post-card">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Boating" class="popular-post-image">
-                    <div class="popular-post-content">
-                        <h3 class="popular-post-title">Opening Day Of Boating Season, Seattle WA</h3>
-                        <p class="popular-post-desc">Of Course The Puget Sound Is Very Watery, And Where There Is Water, There Are Boats. Today Is The Opening Day Of Boating Season, And The Boats Are Out In Full Force.</p>
-                        <div class="popular-post-footer">
-                            <div class="popular-post-author">
-                                <img src="https://i.pravatar.cc/150?img=12" alt="James" class="popular-post-avatar">
-                                <div class="popular-post-author-info">
-                                    <p class="popular-post-author-name">James</p>
-                                    <p class="popular-post-date">August 18, 2022</p>
-                                </div>
-                            </div>
-                            <button class="popular-post-bookmark">
-                                <i class="ri-bookmark-line"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="popular-post-card">
-                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600" alt="Laptop" class="popular-post-image">
-                    <div class="popular-post-content">
-                        <h3 class="popular-post-title">How To Choose The Right Laptop For Programming</h3>
-                        <p class="popular-post-desc">Choosing The Right Laptop For Programming Can Be A Tough Process. It's Easy To Get Confused With All The Different Specifications And Features Available.</p>
-                        <div class="popular-post-footer">
-                            <div class="popular-post-author">
-                                <img src="https://i.pravatar.cc/150?img=13" alt="Louis" class="popular-post-avatar">
-                                <div class="popular-post-author-info">
-                                    <p class="popular-post-author-name">Louis Hoebregts</p>
-                                    <p class="popular-post-date">July 25, 2022</p>
-                                </div>
-                            </div>
-                            <button class="popular-post-bookmark">
-                                <i class="ri-bookmark-line"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="popular-post-card">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="Self-Driving Car" class="popular-post-image">
-                    <div class="popular-post-content">
-                        <h3 class="popular-post-title">How We Built The First Real Self-Driving Car</h3>
-                        <p class="popular-post-desc">Electric Self-Driving Cars Will Save Millions Of Lives And Significantly Accelerate The World's Transition To Sustainable Energy.</p>
-                        <div class="popular-post-footer">
-                            <div class="popular-post-author">
-                                <img src="https://i.pravatar.cc/150?img=47" alt="Mary" class="popular-post-avatar">
-                                <div class="popular-post-author-info">
-                                    <p class="popular-post-author-name">Mary</p>
-                                    <p class="popular-post-date">July 14, 2022</p>
-                                </div>
-                            </div>
-                            <button class="popular-post-bookmark">
-                                <i class="ri-bookmark-line"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="popular-post-card">
-                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" alt="Fast Food" class="popular-post-image">
-                    <div class="popular-post-content">
-                        <h3 class="popular-post-title">How To Persuade Your Parents To Buy Fast Food</h3>
-                        <p class="popular-post-desc">Parents Often Don't Want To Buy Fast Food. They May Be Worried That It's Too Expensive, Unhealthy, Or That It Will Spoil Your Appetite.</p>
-                        <div class="popular-post-footer">
-                            <div class="popular-post-author">
-                                <img src="https://i.pravatar.cc/150?img=15" alt="Jon" class="popular-post-avatar">
-                                <div class="popular-post-author-info">
-                                    <p class="popular-post-author-name">Jon Kantner</p>
-                                    <p class="popular-post-date">May 10, 2022</p>
-                                </div>
-                            </div>
-                            <button class="popular-post-bookmark">
-                                <i class="ri-bookmark-line"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="popular-post-card">
-                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600" alt="Technology" class="popular-post-image">
-                    <div class="popular-post-content">
-                        <h3 class="popular-post-title">The Future of Artificial Intelligence in 2024</h3>
-                        <p class="popular-post-desc">Artificial Intelligence Is Rapidly Transforming Industries Across The Globe. From Healthcare To Finance, AI Is Revolutionizing How We Work And Live.</p>
-                        <div class="popular-post-footer">
-                            <div class="popular-post-author">
-                                <img src="https://i.pravatar.cc/150?img=33" alt="Sarah" class="popular-post-avatar">
-                                <div class="popular-post-author-info">
-                                    <p class="popular-post-author-name">Sarah Johnson</p>
-                                    <p class="popular-post-date">April 22, 2022</p>
-                                </div>
-                            </div>
-                            <button class="popular-post-bookmark">
-                                <i class="ri-bookmark-line"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="popular-post-card">
-                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600" alt="Fitness" class="popular-post-image">
-                    <div class="popular-post-content">
-                        <h3 class="popular-post-title">10 Essential Exercises for Home Workouts</h3>
-                        <p class="popular-post-desc">You Don't Need A Gym Membership To Stay Fit. These Simple Exercises Can Be Done At Home And Will Help You Build Strength And Endurance.</p>
-                        <div class="popular-post-footer">
-                            <div class="popular-post-author">
-                                <img src="https://i.pravatar.cc/150?img=20" alt="Mike" class="popular-post-avatar">
-                                <div class="popular-post-author-info">
-                                    <p class="popular-post-author-name">Mike Thompson</p>
-                                    <p class="popular-post-date">March 15, 2022</p>
-                                </div>
-                            </div>
-                            <button class="popular-post-bookmark">
-                                <i class="ri-bookmark-line"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="new-posts-section container-fluid">
-        <div class="new-posts-header">
-            <h2 class="new-posts-title">General News</h2>
-            <a href="#" class="show-all-btn">
-                Show All <i class="ri-arrow-right-s-line"></i>
-            </a>
-        </div>
-
-        <div class="new-posts-grid">
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800" alt="Mobile UX" class="new-post-image">
+    <!-- NEWS & TRENDS SECTION -->
+    <section class="content-section">
+        <div class="container-fluid px-3 px-lg-4">
+            <div class="row g-4">
                 
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">12 Mobile UX Design Trends For 2018</h3>
-                        <p class="new-post-desc">Things Move Quickly In The Mobile App Universe. To Succeed In The Field Of Mobile UX Design, Designers....</p>
-                    </div>
-                    
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=15" alt="Jon" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">Jon Kantner</p>
-                                <p class="new-post-date">July 14, 2022</p>
-                            </div>
+                <!-- Right Side: News Cards Grid (Ordered First on Mobile via Flex) -->
+                <div class="col-lg-8 col-xl-9 order-1 order-lg-2">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h3 class="fw-bold m-0" style="color: #333; font-size: 1.5rem;">Latest Highlights</h3>
+                        <div class="dropdown">
+                            <button class="btn btn-light rounded-pill px-3 fw-medium btn-sm" type="button"><i class="ri-filter-3-line me-1"></i> Filter</button>
                         </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
                     </div>
-                </div>
-            </div>
 
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800" alt="Surfing" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">No Boat Bottomfish: Jetty Fishing On The...</h3>
-                        <p class="new-post-desc">Cast From The Rocks To Bring Home Fresh Fish Tacos In This Iconic Spring And Summer Fishery. — Are You....</p>
-                    </div>
-                    
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=13" alt="Louis" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">Louis Hoebregts</p>
-                                <p class="new-post-date">July 13, 2022</p>
+                    <div class="row g-3 g-md-4">
+                        <!-- Card 1 -->
+                        <div class="col-md-6">
+                            <div class="news-card">
+                                <div class="news-card-img-wrapper">
+                                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600" class="news-card-img" alt="Tech">
+                                </div>
+                                <div class="news-card-body">
+                                    <span class="news-category">Technology</span>
+                                    <h3 class="news-title">The Evolution of Web Development in 2026 and Beyond</h3>
+                                    <p class="news-desc">Discover the latest frameworks, tools, and methodologies that are shaping the future of the internet.</p>
+                                    <div class="news-footer">
+                                        <div class="news-author">
+                                            <img src="https://i.pravatar.cc/150?img=12" class="author-img" alt="Author">
+                                            <span class="author-name">Alex Dev</span>
+                                        </div>
+                                        <button class="save-btn" title="Save for later"><i class="ri-bookmark-line"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1456926631375-92c8ce872def?w=800" alt="Squirrel" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">What A Disabled Squirrel Taught Me About Life....</h3>
-                        <p class="new-post-desc">Why It Helps To Know What It's Like, And The Exquisite Beauty Of Empathy These Days, The Wood Patio Area....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=12" alt="James" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">James</p>
-                                <p class="new-post-date">July 12, 2022</p>
+                        <!-- Card 2 -->
+                        <div class="col-md-6">
+                            <div class="news-card">
+                                <div class="news-card-img-wrapper">
+                                    <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600" class="news-card-img" alt="Nature">
+                                </div>
+                                <div class="news-card-body">
+                                    <span class="news-category">Environment</span>
+                                    <h3 class="news-title">Silent Forests: Preserving Ancient Woods</h3>
+                                    <p class="news-desc">A deep dive into the conservation efforts currently underway to save our planet's oldest ecosystems.</p>
+                                    <div class="news-footer">
+                                        <div class="news-author">
+                                            <img src="https://i.pravatar.cc/150?img=25" class="author-img" alt="Author">
+                                            <span class="author-name">Sarah Green</span>
+                                        </div>
+                                        <button class="save-btn" title="Save for later"><i class="ri-bookmark-line"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800" alt="Car" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Becoming A Self-Driving Car & Machine Learning...</h3>
-                        <p class="new-post-desc">How I Left My Full-Time Job, Studied At Udacity, And Landed A Job At BMW The Past Year Has Been Quite....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=47" alt="Cassie" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">Cassie Evans</p>
-                                <p class="new-post-date">July 12, 2022</p>
+                        <!-- Card 3 -->
+                        <div class="col-md-6">
+                            <div class="news-card">
+                                <div class="news-card-img-wrapper">
+                                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600" class="news-card-img" alt="Business">
+                                </div>
+                                <div class="news-card-body">
+                                    <span class="news-category">Business</span>
+                                    <h3 class="news-title">Remote Work: The New Permanent Standard</h3>
+                                    <p class="news-desc">Why major companies are closing physical offices and embracing a fully digital workforce.</p>
+                                    <div class="news-footer">
+                                        <div class="news-author">
+                                            <img src="https://i.pravatar.cc/150?img=33" class="author-img" alt="Author">
+                                            <span class="author-name">John Smith</span>
+                                        </div>
+                                        <button class="save-btn" title="Save for later"><i class="ri-bookmark-line"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
                     </div>
-                </div>
-            </div>
 
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=800" alt="Design" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">How To Become A Master Designer</h3>
-                        <p class="new-post-desc">Many Outsiders Believe That Designers Are Unicorns, Gifted Or Special In Some Way. We Have An Innate...</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=45" alt="Linda" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">Linda</p>
-                                <p class="new-post-date">July 10, 2022</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
+                    <!-- Stylish Read More Button -->
+                    <div class="read-more-container">
+                        <a href="#" class="custom-read-more-btn">
+                            Load More <i class="ri-arrow-right-line"></i>
+                        </a>
                     </div>
                 </div>
-            </div>
 
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800" alt="Music" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">This Free Course Can Teach You Music...</h3>
-                        <p class="new-post-desc">A Berlin-Based Music Software Company, Just Released A Free Interactive Music Course That Runs Right In Yo...</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=32" alt="Patricia" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">Patricia</p>
-                                <p class="new-post-date">July 09, 2022</p>
+                <!-- Left Side: Trends Sidebar (Ordered Second on Mobile) -->
+                <div class="col-lg-4 col-xl-3 order-2 order-lg-1">
+                    <div class="trends-sidebar">
+                        <h4 class="trends-header">Trends for you</h4>
+                        
+                        <!-- Trend Item 1 -->
+                        <div class="trend-item">
+                            <div class="trend-info">
+                                <div class="trend-meta">Trending in Egypt</div>
+                                <div class="trend-title">#MegaNews_Update</div>
+                                <div class="trend-count">125K Tweets</div>
                             </div>
+                            <div class="trend-more"><i class="ri-more-fill trend-more-icon"></i></div>
                         </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
+
+                        <!-- Trend Item 2 -->
+                        <div class="trend-item">
+                            <div class="trend-info">
+                                <div class="trend-meta">Technology</div>
+                                <div class="trend-title">Artificial Intelligence</div>
+                                <div class="trend-count">450K Posts</div>
+                            </div>
+                            <div class="trend-more"><i class="ri-more-fill trend-more-icon"></i></div>
+                        </div>
+
+                        <!-- Trend Item 3 -->
+                        <div class="trend-item">
+                            <div class="trend-info">
+                                <div class="trend-meta">Sports</div>
+                                <div class="trend-title">Champions League</div>
+                                <div class="trend-count">89K Posts</div>
+                            </div>
+                            <div class="trend-more"><i class="ri-more-fill trend-more-icon"></i></div>
+                        </div>
+
+                         <!-- Trend Item 4 -->
+                         <div class="trend-item">
+                            <div class="trend-info">
+                                <div class="trend-meta">Politics</div>
+                                <div class="trend-title">#Parliament2026</div>
+                                <div class="trend-count">22K Posts</div>
+                            </div>
+                            <div class="trend-more"><i class="ri-more-fill trend-more-icon"></i></div>
+                        </div>
+
+                        <a href="#" class="show-more-link">Show more</a>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section class="latest-videos-section container-fluid">
-        <div class="latest-videos-header">
-            <h2 class="latest-videos-title">Latest Videos</h2>
-            <div class="videos-nav-buttons">
-                <button class="video-nav-btn" id="videosPrevBtn">
-                    <i class="ri-arrow-left-s-line"></i>
-                </button>
-                <button class="video-nav-btn" id="videosNextBtn">
-                    <i class="ri-arrow-right-s-line"></i>
-                </button>
+    <!-- NEWS TICKER -->
+    <div class="modern-ticker-container" id="newsTickerBar">
+        <div class="ticker-wrapper">
+            <div class="ticker-label">
+                <span class="label-text"><i class="ri-bard-fill"></i> TRENDING</span>
+            </div>
+            <div class="ticker-headlines-container">
+                <div class="ticker-headline current-headline" id="headlineDisplay">Loading updates...</div>
             </div>
         </div>
-
-        <div class="videos-container">
-            <!-- Main Video -->
-            <div class="main-video-wrapper">
-                <div class="main-video-thumbnail">
-                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800" alt="Video" id="mainVideoImage">
-                </div>
-                <div class="main-video-overlay">
-                    <h3 class="main-video-title" id="mainVideoTitle">Balancing Work and Wellness: Tech Solutions...</h3>
-                    <div class="main-video-meta">
-                        <span class="main-video-author" id="mainVideoAuthor">Sarah Eddrissi</span>
-                        <span class="main-video-time">
-                            <i class="ri-time-line"></i>
-                            <span id="mainVideoTime">1h ago</span>
-                        </span>
-                        <span class="main-video-comments">
-                            <i class="ri-chat-1-line"></i>
-                            <span id="mainVideoComments">0</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="video-dots" id="videoDots">
-                    <span class="video-dot active" data-index="0"></span>
-                    <span class="video-dot" data-index="1"></span>
-                    <span class="video-dot" data-index="2"></span>
-                    <span class="video-dot" data-index="3"></span>
-                </div>
-            </div>
-
-            <!-- Side Videos List -->
-            <div class="side-videos-list" id="sideVideosList">
-                <div class="side-video-item active" data-index="0">
-                    <div class="side-video-thumb">
-                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400" alt="Video">
-                    </div>
-                    <div class="side-video-content">
-                        <h4 class="side-video-title">Balancing Work and Wellness: Tech Solutions for Healthy</h4>
-                    </div>
-                </div>
-
-                <div class="side-video-item" data-index="1">
-                    <div class="side-video-thumb">
-                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400" alt="Video">
-                    </div>
-                    <div class="side-video-content">
-                        <h4 class="side-video-title">Business Agility the Digital Age: Leveraging AI and...</h4>
-                    </div>
-                </div>
-
-                <div class="side-video-item" data-index="2">
-                    <div class="side-video-thumb">
-                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400" alt="Video">
-                    </div>
-                    <div class="side-video-content">
-                        <h4 class="side-video-title">The Art of Baking: From Classic Bread to Artisan...</h4>
-                    </div>
-                </div>
-
-                <div class="side-video-item" data-index="3">
-                    <div class="side-video-thumb">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" alt="Video">
-                    </div>
-                    <div class="side-video-content">
-                        <h4 class="side-video-title">AI-Powered Financial Planning: How Algorithms...</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="new-posts-section container-fluid">
-        <div class="new-posts-header">
-            <h2 class="new-posts-title">Real Estate</h2>
-            <a href="#" class="show-all-btn">
-                Show All <i class="ri-arrow-right-s-line"></i>
-            </a>
-        </div>
-
-        <div class="new-posts-grid">
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" alt="Real Estate" class="new-post-image">
-                
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Luxury Modern Villa with Stunning Ocean Views</h3>
-                        <p class="new-post-desc">Discover the perfect blend of modern architecture and natural beauty in this stunning oceanfront property. Features include spacious rooms, premium finishes, and breathtaking views....</p>
-                    </div>
-                    
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=15" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 28, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" alt="Real Estate" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Ultimate Guide to Buying Your First Home</h3>
-                        <p class="new-post-desc">Everything you need to know about purchasing your first property. From mortgage options to inspection tips, we cover all the essential steps to make your dream home a reality....</p>
-                    </div>
-                    
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=13" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 25, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800" alt="Real Estate" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Commercial Property Market Trends 2024</h3>
-                        <p class="new-post-desc">An in-depth analysis of the commercial real estate market. Explore emerging trends, investment opportunities, and what to expect in the coming year for commercial properties....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=12" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 20, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800" alt="Real Estate" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Smart Real Estate Investment Strategies</h3>
-                        <p class="new-post-desc">Learn proven strategies for building wealth through real estate investments. From rental properties to fix-and-flip projects, discover the best approaches for your portfolio....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=47" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 18, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800" alt="Real Estate" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Luxury Apartment Living: Modern Amenities</h3>
-                        <p class="new-post-desc">Explore the world of luxury apartment living with state-of-the-art amenities, concierge services, and premium locations that redefine urban living experiences....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=45" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 15, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800" alt="Real Estate" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Sustainable Architecture in Modern Homes</h3>
-                        <p class="new-post-desc">Discover how sustainable design principles are transforming the real estate industry. Learn about eco-friendly materials, energy efficiency, and green building certifications....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=32" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 12, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Economy Posts Section -->
-    <section class="new-posts-section container-fluid">
-        <div class="new-posts-header">
-            <h2 class="new-posts-title">Economy</h2>
-            <a href="#" class="show-all-btn">
-                Show All <i class="ri-arrow-right-s-line"></i>
-            </a>
-        </div>
-
-        <div class="new-posts-grid">
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800" alt="Economy" class="new-post-image">
-                
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Global Economic Outlook for 2024</h3>
-                        <p class="new-post-desc">Comprehensive analysis of global economic trends, inflation rates, and market predictions. Experts weigh in on what to expect in the coming year across major economies....</p>
-                    </div>
-                    
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=15" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">September 5, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800" alt="Economy" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Cryptocurrency Market Analysis</h3>
-                        <p class="new-post-desc">Deep dive into the cryptocurrency market trends, blockchain technology impact, and investment strategies. Understanding the future of digital currencies in the global economy....</p>
-                    </div>
-                    
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=13" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">September 2, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800" alt="Economy" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Inflation Rates and Consumer Spending</h3>
-                        <p class="new-post-desc">Examining how inflation affects consumer behavior and spending patterns. Analysis of price trends, wage growth, and their impact on household budgets and economic stability....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=12" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 30, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=800" alt="Economy" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Stock Market Trends and Investment Tips</h3>
-                        <p class="new-post-desc">Expert insights on stock market performance, sector analysis, and strategic investment approaches. Learn how to navigate market volatility and build a diversified portfolio....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=47" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 27, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=800" alt="Economy" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Trade Wars and International Relations</h3>
-                        <p class="new-post-desc">Understanding the impact of trade policies on global markets. Analysis of tariffs, trade agreements, and their effects on international commerce and economic growth....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=45" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 24, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="new-post-card">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800" alt="Economy" class="new-post-image">
-                <div class="new-post-content">
-                    <div>
-                    <h3 class="new-post-title">Central Bank Policies and Interest Rates</h3>
-                        <p class="new-post-desc">Exploring how central bank decisions affect the economy. Analysis of monetary policy, interest rate changes, and their implications for businesses and consumers worldwide....</p>
-                    </div>
-                    <div class="new-post-footer">
-                        <div class="new-post-author">
-                            <img src="https://i.pravatar.cc/150?img=32" alt="Author" class="new-post-avatar">
-                            <div class="new-post-author-info">
-                                <p class="new-post-author-name">BY - Tnews</p>
-                                <p class="new-post-date">August 21, 2023</p>
-                            </div>
-                        </div>
-                        <button class="new-post-bookmark">
-                            <i class="ri-bookmark-line"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <button class="ticker-close-btn" id="tickerCloseBtn" aria-label="Close Ticker">
+            <i class="ri-close-line"></i>
+        </button>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Sticky Header with Animation
+        // --- Header & General Scripts ---
         const header = document.querySelector('.main-header');
-        let lastScroll = 0;
-
         window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
+            header.classList.toggle('scrolled', window.pageYOffset > 50);
+        });
+
+        // Dropdown hover (Desktop only)
+        if (window.innerWidth > 991) {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (toggle && menu) {
+                    dropdown.addEventListener('mouseenter', () => dropdown.classList.add('show'));
+                    dropdown.addEventListener('mouseleave', () => dropdown.classList.remove('show'));
+                }
+            });
+        }
+
+        // --- Date & Time Script ---
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit' };
             
-            if (currentScroll > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            const dateElem = document.getElementById('currentDate');
+            const timeElem = document.getElementById('currentTime');
             
-            lastScroll = currentScroll;
-        });
-
-        // Popular Posts Slider
-        const popularPostsWrapper = document.getElementById('popularPostsWrapper');
-        const popularPrevBtn = document.getElementById('popularPrevBtn');
-        const popularNextBtn = document.getElementById('popularNextBtn');
-        const popularPostsContainer = document.querySelector('.popular-posts-container');
-
-        if(popularPostsWrapper && popularPrevBtn && popularNextBtn && popularPostsContainer) {
-            popularNextBtn.addEventListener('click', () => {
-                const cardWidth = 320; // 300px card + 20px gap
-                popularPostsWrapper.scrollBy({ left: cardWidth, behavior: 'smooth' });
-            });
-
-            popularPrevBtn.addEventListener('click', () => {
-                const cardWidth = 320; // 300px card + 20px gap
-                popularPostsWrapper.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-            });
-
-            // Update fade effects based on scroll position
-            const updateButtonVisibility = () => {
-                const { scrollLeft, scrollWidth, clientWidth } = popularPostsWrapper;
-                const isAtStart = scrollLeft <= 10;
-                const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 10;
-                
-                // Buttons are always visible, no opacity change
-                
-                // Update fade effects
-                if (isAtStart) {
-                    popularPostsContainer.classList.remove('show-left-fade');
-                } else {
-                    popularPostsContainer.classList.add('show-left-fade');
-                }
-                
-                if (isAtEnd) {
-                    popularPostsContainer.classList.remove('show-right-fade');
-                } else {
-                    popularPostsContainer.classList.add('show-right-fade');
-                }
-            };
-
-            popularPostsWrapper.addEventListener('scroll', updateButtonVisibility);
-            updateButtonVisibility();
+            if(dateElem) dateElem.textContent = now.toLocaleDateString('en-US', dateOptions);
+            if(timeElem) timeElem.textContent = now.toLocaleTimeString('en-US', timeOptions);
         }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
 
-        // Dropdown hover functionality
-        document.querySelectorAll('.dropdown').forEach(dropdown => {
-            const toggle = dropdown.querySelector('.dropdown-toggle');
-            const menu = dropdown.querySelector('.dropdown-menu');
 
-            if (toggle && menu) {
-                // Show on hover
-                dropdown.addEventListener('mouseenter', () => {
-                    dropdown.classList.add('show');
-                });
+        // --- News Ticker Script ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsData = [
+                "New study shows coffee might actually help you live longer.",
+                "Apple's latest iOS update includes these hidden features.",
+                "Global markets rally as tech stocks hit record highs.",
+                "SpaceX successfully launches world's most powerful rocket."
+            ];
 
-                // Hide when mouse leaves
-                dropdown.addEventListener('mouseleave', () => {
-                    dropdown.classList.remove('show');
-                });
+            const tickerContainer = document.getElementById('newsTickerBar');
+            const headlineDisplay = document.getElementById('headlineDisplay');
+            const closeBtn = document.getElementById('tickerCloseBtn');
+            let currentIndex = 0;
+            let intervalId;
+
+            function rotateHeadline() {
+                headlineDisplay.classList.add('exit-headline');
+                headlineDisplay.classList.remove('current-headline');
+                
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % newsData.length;
+                    headlineDisplay.textContent = newsData[currentIndex];
+                    headlineDisplay.classList.remove('exit-headline');
+                    void headlineDisplay.offsetWidth; // Trigger reflow
+                    headlineDisplay.classList.add('current-headline');
+                }, 500);
             }
+
+            if (newsData.length > 0) headlineDisplay.textContent = newsData[0];
+            intervalId = setInterval(rotateHeadline, 10000);
+
+            closeBtn.addEventListener('click', function() {
+                clearInterval(intervalId);
+                tickerContainer.classList.add('closed');
+                document.body.style.paddingBottom = '0';
+            });
         });
 
-        // Latest Videos Slider
-        const videosData = [
-            {
-                mainImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800',
-                title: 'Balancing Work and Wellness: Tech Solutions...',
-                author: 'Sarah Eddrissi',
-                time: '1h ago',
-                comments: 0
-            },
-            {
-                mainImage: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800',
-                title: 'Business Agility the Digital Age: Leveraging AI and...',
-                author: 'John Smith',
-                time: '2h ago',
-                comments: 5
-            },
-            {
-                mainImage: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800',
-                title: 'The Art of Baking: From Classic Bread to Artisan...',
-                author: 'Emily Johnson',
-                time: '3h ago',
-                comments: 12
-            },
-            {
-                mainImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800',
-                title: 'AI-Powered Financial Planning: How Algorithms...',
-                author: 'Michael Brown',
-                time: '4h ago',
-                comments: 8
-            }
-        ];
+        // --- Search Overlay Script ---
+        const searchTrigger = document.getElementById('searchTrigger');
+        const searchTriggerMobile = document.getElementById('searchTriggerMobile');
+        const searchOverlay = document.getElementById('searchOverlay');
+        const closeSearchOverlay = document.getElementById('closeSearchOverlay');
+        const searchInput = document.querySelector('.overlay-search-input');
 
-        let currentVideoIndex = 0;
-        const mainVideoImage = document.getElementById('mainVideoImage');
-        const mainVideoTitle = document.getElementById('mainVideoTitle');
-        const mainVideoAuthor = document.getElementById('mainVideoAuthor');
-        const mainVideoTime = document.getElementById('mainVideoTime');
-        const mainVideoComments = document.getElementById('mainVideoComments');
-        const videoDots = document.querySelectorAll('.video-dot');
-        const sideVideoItems = document.querySelectorAll('.side-video-item');
-        const videosPrevBtn = document.getElementById('videosPrevBtn');
-        const videosNextBtn = document.getElementById('videosNextBtn');
+        function openSearch() {
+            searchOverlay.classList.add('active');
+            setTimeout(() => searchInput.focus(), 100);
+        }
 
-        function updateVideo(index) {
-            currentVideoIndex = index;
-            const video = videosData[index];
+        if(searchOverlay && closeSearchOverlay) {
+            if(searchTrigger) searchTrigger.addEventListener('click', openSearch);
+            if(searchTriggerMobile) searchTriggerMobile.addEventListener('click', openSearch);
 
-            // Update main video
-            if (mainVideoImage) mainVideoImage.src = video.mainImage;
-            if (mainVideoTitle) mainVideoTitle.textContent = video.title;
-            if (mainVideoAuthor) mainVideoAuthor.textContent = video.author;
-            if (mainVideoTime) mainVideoTime.textContent = video.time;
-            if (mainVideoComments) mainVideoComments.textContent = video.comments;
-
-            // Update dots
-            videoDots.forEach((dot, i) => {
-                if (i === index) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+            closeSearchOverlay.addEventListener('click', () => {
+                searchOverlay.classList.remove('active');
             });
 
-            // Update side videos
-            sideVideoItems.forEach((item, i) => {
-                if (i === index) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+                    searchOverlay.classList.remove('active');
                 }
             });
         }
-
-        // Navigation buttons
-        if (videosPrevBtn && videosNextBtn) {
-            videosPrevBtn.addEventListener('click', () => {
-                const newIndex = (currentVideoIndex - 1 + videosData.length) % videosData.length;
-                updateVideo(newIndex);
-            });
-
-            videosNextBtn.addEventListener('click', () => {
-                const newIndex = (currentVideoIndex + 1) % videosData.length;
-                updateVideo(newIndex);
-            });
-        }
-
-        // Dots navigation
-        videoDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                updateVideo(index);
-            });
-        });
-
-        // Side videos navigation
-        sideVideoItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                updateVideo(index);
-            });
-        });
-
     </script>
 </body>
 </html>
